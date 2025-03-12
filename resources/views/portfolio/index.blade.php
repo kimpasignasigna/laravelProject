@@ -39,7 +39,7 @@
 
               
     <div class="profile-img">
-        <img src="{{ auth()->user()->logo }}" alt="" class="img-fluid rounded-circle">
+    <img src="{{ auth()->user()->logo }}" alt="" class="img-fluid" style="width: 100px; height: 100px; border-radius: 50%;object-fit: cover;">
     </div>
 
 
@@ -80,7 +80,8 @@
 
         <div class="d-flex justify-content-center text-center">
   
-        <img src="{{ auth()->user()->logo }}" alt="Portfolio Logo" data-aos="fade-in" class="img-fluid">
+        <img src="{{ auth()->user()->logo }}" alt="Portfolio Logo" data-aos="fade-in" class="img-fluid" style="object-fit: cover;">
+
        
 </div>
 
@@ -114,7 +115,7 @@
 
                 <div class="row gy-4 justify-content-center">
                     <div class="col-lg-4">
-                    <img src="{{ auth()->user()->logo }}" class="img-fluid" alt="">
+                    <img src="{{ auth()->user()->logo }}" class="img-fluid" alt="" style="width: 200px; height: 200px; object-fit: cover;">
                     </div>
                     <div class="col-lg-8 content">
                         <h2>Background Profile.</h2>
