@@ -39,8 +39,12 @@
 
               
     <div class="profile-img">
+    @if (Auth::user()->role === 'admin')
+    <img src="/icon/img.png" alt="" class="img-fluid" style="width: 100px; height: 100px; border-radius: 50%;object-fit: cover;">
+    @else
     <img src="{{ auth()->user()->logo }}" alt="" class="img-fluid" style="width: 100px; height: 100px; border-radius: 50%;object-fit: cover;">
-    </div>
+    @endif
+</div>
 
 
 
@@ -59,7 +63,11 @@
         <nav id="navmenu" class="navmenu">
             <ul>
                 <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
+                @if (Auth::user()->role === 'admin')
+                <li><a href="#dashboard"><i class="bi bi-grid navicon"></i> Dashboard</a></li>
+                @else
                 <li><a href="#about"><i class="bi bi-person navicon"></i> About</a></li>
+                @endif
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
@@ -79,11 +87,13 @@
         <section id="hero" class="hero section dark-background">
 
         <div class="d-flex justify-content-center text-center">
-  
+        @if (Auth::user()->role === 'admin')
+        <img src="/icon/image.png" alt="Portfolio Logo" data-aos="fade-in" class="img-fluid" style="object-fit: cover;">
+        @else
         <img src="{{ auth()->user()->logo }}" alt="Portfolio Logo" data-aos="fade-in" class="img-fluid" style="object-fit: cover;">
-
+        @endif
        
-</div>
+    </div>
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
                 <h2>{{auth()->user()->name}}
@@ -98,7 +108,75 @@
             </div>
 
         </section><!-- /Hero Section -->
+        @if (Auth::user()->role === 'admin')
 
+       <!-- Dashboard Section -->
+<section id="dashboard" class="about section">
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Dashboard</h2>
+
+    </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4 justify-content-center">
+        <div class="col-lg-4">
+        <img src="/icon/img.png" class="img-fluid" alt="" style="width: 200px; height: 200px; object-fit: cover;">
+        </div>
+            <div class="col-lg-8 content">
+                <h2>Display All Users</h2>
+                <p class="fst-italic py-3">
+                    Below is the table displaying all users with pagination.
+                </p>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- User Table -->
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($users as $user)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->role }}</td>
+                                    <td>
+                            
+                                    <a href="" target="_blank">View Content</a>
+                     
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <!-- Pagination Controls -->
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                    {{ $users->links() }} <!-- Pagination links will be displayed here -->
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section><!-- /Dashboard Section -->
+
+
+        @else
         <!-- About Section -->
         <section id="about" class="about section">
 
@@ -337,6 +415,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
 
         </section><!-- /About Section -->
+@endif
 
     </main>
 

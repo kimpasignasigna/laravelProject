@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PortfolioController;
 use App\Models\Portfolio;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -18,8 +19,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 Route::get('/', function () {
+    $users = User::where('role', '!=', 'admin')->paginate(5);
     $portfolio = Portfolio::where('user_id', Auth::id())->first(); // Fetch only the logged-in user's portfolio
-    return view('portfolio.index', compact('portfolio')); // ✅ Use singular variable
+    return view('portfolio.index', compact('portfolio','users')); // ✅ Use singular variable
 })->middleware(['auth', 'verified'])->name('/');
 
 

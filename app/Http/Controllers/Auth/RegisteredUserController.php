@@ -55,8 +55,8 @@ class RegisteredUserController extends Controller
                 if ($request->hasFile('logo')) {
                     $file = $request->file('logo');
                     $filename = time() . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('logos'), $filename); // Store in public/logos folder
-                    $user->logo = 'logos/' . $filename; // Save the relative path to the logo
+                    $file->move(public_path('logo'), $filename); // Store in public/logos folder
+                    $user->logo = 'logo/' . $filename; // Save the relative path to the logo
                 }
         
                 // Save the user record with the uploaded logo
