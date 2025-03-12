@@ -38,6 +38,7 @@ class RegisteredUserController extends Controller
             'skill2' => ['required', 'string', 'max:255'],
             'skill3' => ['required', 'string', 'max:255'],
             'skill4' => ['required', 'string', 'max:255'],
+            'logo' => ['required', 'mimes:jpeg,jpg,png'],
         ]);
 
         $user = User::create([
@@ -49,6 +50,17 @@ class RegisteredUserController extends Controller
             'skill3' => $request->skill3,
             'skill4' => $request->skill4,
         ]);
+
+                // Handle the file upload for logo
+                if ($request->hasFile('logo')) {
+                    $file = $request->file('logo');
+                    $filename = time() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('logos'), $filename); // Store in public/logos folder
+                    $user->logo = 'logos/' . $filename; // Save the relative path to the logo
+                }
+        
+                // Save the user record with the uploaded logo
+            $user->save();
 
         event(new Registered($user));
 

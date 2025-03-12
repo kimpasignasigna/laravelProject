@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Portfolio extends Model
 {
-    protected $fillable = ['user_id', 'logo','birthday','phone','city','age','degree','messagetext'];
+    protected $fillable = ['user_id', 'birthday','phone','city','age','degree','messagetext'];
 
     /**
      * Get the user that owns the portfolio.

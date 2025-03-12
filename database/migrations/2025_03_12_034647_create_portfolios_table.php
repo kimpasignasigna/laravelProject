@@ -18,13 +18,12 @@ return new class extends Migration
         Schema::create('portfolios', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
-            $table->string('logo')->nullable();
-            $table->string('birthday')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('City')->nullable();
-            $table->string('Age')->nullable();
-            $table->string('Degree')->nullable();
-            $table->string('messageText')->nullable();
+            $table->string('birthday');
+            $table->string('phone');
+            $table->string('City');
+            $table->string('Age');
+            $table->string('Degree');
+            $table->string('messageText');
             $table->timestamps();
         });
     }

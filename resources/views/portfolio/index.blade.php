@@ -37,36 +37,11 @@
     <header id="header" class="header dark-background d-flex flex-column">
         <i class="header-toggle d-xl-none bi bi-list"></i>
 
-        <div class="profile-img text-center">
-    <label for="upload-logo">
-        <!-- Display uploaded profile image if available, otherwise show a placeholder -->
-        <img id="profile-preview" 
-            src="{{ isset($portfolio) && $portfolio->logo ? asset($portfolio->logo) : asset('icon/logoicon.png') }}" 
-            alt="Click Here to Upload Your Image" 
-            class="img-fluid rounded-circle" 
-            style="cursor: pointer; width: 150px; height: 150px; object-fit: cover;">
-    </label>
+              
+    <div class="profile-img">
+        <img src="{{ auth()->user()->logo }}" alt="" class="img-fluid rounded-circle">
+    </div>
 
-    <!-- Hidden file input -->
-    <form action="{{ route('portfolios.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-        
-        <input type="file" name="logo" id="upload-logo" class="d-none" onchange="previewImage(event)">
-        <button type="submit" class="btn btn-primary mt-2">Upload</button>
-    </form>
-</div>
-
-<script>
-function previewImage(event) {
-    var reader = new FileReader();
-    reader.onload = function() {
-        var output = document.getElementById('profile-preview');
-        output.src = reader.result;
-    };
-    reader.readAsDataURL(event.target.files[0]);
-}
-</script>
 
 
 
@@ -104,11 +79,9 @@ function previewImage(event) {
         <section id="hero" class="hero section dark-background">
 
         <div class="d-flex justify-content-center text-center">
-    @if (!empty($portfolio->logo))
-        <img src="{{ asset($portfolio->logo) }}" alt="Portfolio Logo" data-aos="fade-in" class="img-fluid">
-        @else
-        <img src="{{ asset('icon/logoicon.png') }}" alt="Portfolio Logo" data-aos="fade-in" class="img-fluid">
-        @endif
+  
+        <img src="{{ auth()->user()->logo }}" alt="Portfolio Logo" data-aos="fade-in" class="img-fluid">
+       
 </div>
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -141,19 +114,55 @@ function previewImage(event) {
 
                 <div class="row gy-4 justify-content-center">
                     <div class="col-lg-4">
-                    @if (!empty($portfolio->logo))
-                    <img src="{{ asset($portfolio->logo) }}" class="img-fluid" alt="">
-                    @endif
+                    <img src="{{ auth()->user()->logo }}" class="img-fluid" alt="">
                     </div>
                     <div class="col-lg-8 content">
                         <h2>Background Profile.</h2>
                         <p class="fst-italic py-3">
-                        <a href="#" class="btn btn-primary" id="addBackgroundProfile">
-    <i class="bi bi-plus"></i> Add Background Profile
-</a>
-<a href="#" class="btn btn-primary" id="editBackgroundProfile">
-    <i class="bi bi-plus"></i> Edit Background Profile
-</a>
+                      
+                        @if(isset($portfolio))
+    <!-- Show Edit & Delete Buttons if data exists -->
+    <a href="#" class="btn btn-success" id="editBackgroundProfile">
+        Edit Background Profile
+    </a>
+
+    <form id="deleteBackgroundProfileForm" 
+      action="{{ route('portfolios.destroy', $portfolio->id) }}" 
+      method="POST" style="display: inline;">
+    @csrf
+    @method('DELETE')
+    <button type="button" id="deleteBackgroundProfile" class="btn btn-danger">
+        Delete Background Profile
+    </button>
+</form>
+@else
+    <!-- Show Add Button if no data exists -->
+    <a href="#" class="btn btn-primary" id="addBackgroundProfile">
+        Add Background Profile
+    </a>
+@endif
+ 
+
+
+<script>
+    document.getElementById("deleteBackgroundProfile").addEventListener("click", function(event) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to undo this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById("deleteBackgroundProfileForm").submit();
+            }
+        });
+    });
+</script>
 <script>
 document.getElementById("addBackgroundProfile").addEventListener("click", function(event) {
     event.preventDefault();
@@ -215,6 +224,7 @@ document.getElementById("addBackgroundProfile").addEventListener("click", functi
 
 </script>
 
+@if(isset($portfolio))
 <script>
 document.getElementById("editBackgroundProfile").addEventListener("click", function(event) {
     event.preventDefault();
@@ -231,12 +241,12 @@ document.getElementById("editBackgroundProfile").addEventListener("click", funct
         title: "Edit Background Profile",
         html: `
             <form id="backgroundProfileForm">
-                <input type="text" name="phone" value="${phone}" class="swal2-input" placeholder="Phone Number" required>
-                <input type="date" name="birthday" value="${birthday}" class="swal2-input" required>
-                <input type="text" name="city" value="${city}" class="swal2-input" placeholder="City" required>
-                <input type="text" name="degree" value="${degree}" class="swal2-input" placeholder="Degree" required>
-                <input type="number" name="age" value="${age}" class="swal2-input" placeholder="Age" required>
-                <textarea name="messagetext" class="swal2-textarea" placeholder="Message">${messagetext}</textarea>
+                <input type="text" name="phone" value="${phone}" class="swal2-input" placeholder="Phone Number" required style="width: 80%; font-size: 14px; padding: 6px;">
+                <input type="date" name="birthday" value="${birthday}" class="swal2-input" required style="width: 80%; font-size: 14px; padding: 6px;">
+                <input type="text" name="city" value="${city}" class="swal2-input" placeholder="City" required style="width: 80%; font-size: 14px; padding: 6px;">
+                <input type="text" name="degree" value="${degree}" class="swal2-input" placeholder="Degree" required style="width: 80%; font-size: 14px; padding: 6px;">
+                <input type="number" name="age" value="${age}" class="swal2-input" placeholder="Age" required style="width: 80%; font-size: 14px; padding: 6px;">
+                <textarea name="messagetext" class="swal2-textarea" placeholder="Message" style="width: 80%; font-size: 14px; padding: 6px;">${messagetext}</textarea>
             </form>
         `,
         showCancelButton: true,
@@ -286,7 +296,7 @@ document.getElementById("editBackgroundProfile").addEventListener("click", funct
     });
 });
 </script>
-
+@endif
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     @if(session('success'))

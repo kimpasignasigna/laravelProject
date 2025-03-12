@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('skill2');
             $table->string('skill3');
             $table->string('skill4');
+            $table->string('logo')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

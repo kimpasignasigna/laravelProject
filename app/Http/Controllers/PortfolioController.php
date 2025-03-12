@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
-use App\Providers\RouteServiceProvider;
 
 class PortfolioController extends Controller
 {
@@ -15,12 +14,12 @@ class PortfolioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'birthday' => 'nullable|date',
-            'phone' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'age' => 'nullable|string|max:255',
-            'degree' => 'nullable|string|max:255',
-            'messagetext' => 'nullable|string|max:255',
+            'birthday' => 'required|date',
+            'phone' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'age' => 'required|string|max:255',
+            'degree' => 'required|string|max:255',
+            'messagetext' => 'required|string|max:255',
         ]);
         $portfolio = Portfolio::create([
             'user_id' => $request->user()->id, // Fixed: Correct way to get user ID
@@ -39,12 +38,12 @@ class PortfolioController extends Controller
     public function update(Request $request, Portfolio $portfolio)
 {
     $request->validate([
-        'birthday' => 'nullable|date',
-            'phone' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'age' => 'nullable|string|max:255',
-            'degree' => 'nullable|string|max:255',
-            'messagetext' => 'nullable|string|max:255',
+        'birthday' => 'required|date',
+            'phone' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'age' => 'required|string|max:255',
+            'degree' => 'required|string|max:255',
+            'messagetext' => 'required|string|max:255',
     ]);
 
     $portfolio->update([
@@ -59,37 +58,11 @@ class PortfolioController extends Controller
     return redirect()->back()->with('success', 'Background profile updated successfully!');
 }
 
-
+public function destroy(Portfolio $portfolio)
+{
+    $portfolio->delete();
+    
+    return redirect()->back()->with('success', 'Background profile deleted successfully!');
 }
 
-
-
-
-
-
-
-
-
-
-// public function store(Request $request)
-//     {
-//         $request->validate([
-//             'logo' => 'nullable|mimes:jpeg,jpg,png', 
-//         ]);
-//         $portfolio = Portfolio::create([
-//             'user_id' => $request->user()->id, // Fixed: Correct way to get user ID
-
-//         ]);
-//              // Handle the file upload for logo
-//              if ($request->hasFile('logo')) {
-//                 $file = $request->file('logo');
-//                 $filename = time() . '.' . $file->getClientOriginalExtension();
-//                 $file->move(public_path('logos'), $filename); // Store in public/logos folder
-//                 $portfolio->logo = 'logos/' . $filename; // Save the relative path to the logo
-//             }
-
-//             $portfolio->save();
-
-//             return redirect()->back()->with('success', 'Background profile added successfully!');
-
-//     }
+}

@@ -25,6 +25,8 @@ class User extends Authenticatable
         'skill2',
         'skill3',
         'skill4',
+        'logo',
+        'role',
     ];
 
     /**

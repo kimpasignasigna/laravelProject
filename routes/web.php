@@ -34,4 +34,5 @@ require __DIR__.'/auth.php';
 
 Route::post('portfolios', [PortfolioController::class, 'store'])->name('portfolios.store'); // Store Route
 Route::put('portfolios/{portfolio}', [PortfolioController::class, 'update'])->name('portfolios.update'); // Update Route
+Route::delete('portfolios/{portfolio}', [PortfolioController::class, 'destroy'])->name('portfolios.destroy'); // Update Route
 
