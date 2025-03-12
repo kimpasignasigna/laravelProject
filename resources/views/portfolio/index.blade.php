@@ -151,6 +151,9 @@ function previewImage(event) {
                         <a href="#" class="btn btn-primary" id="addBackgroundProfile">
     <i class="bi bi-plus"></i> Add Background Profile
 </a>
+<a href="#" class="btn btn-primary" id="editBackgroundProfile">
+    <i class="bi bi-plus"></i> Edit Background Profile
+</a>
 <script>
 document.getElementById("addBackgroundProfile").addEventListener("click", function(event) {
     event.preventDefault();
@@ -212,6 +215,90 @@ document.getElementById("addBackgroundProfile").addEventListener("click", functi
 
 </script>
 
+<script>
+document.getElementById("editBackgroundProfile").addEventListener("click", function(event) {
+    event.preventDefault();
+
+    // Fetch existing data (Replace these variables with actual values from backend)
+    let phone = "{{ $portfolio->phone ?? '' }}";
+    let birthday = "{{ $portfolio->birthday ?? '' }}";
+    let city = "{{ $portfolio->City ?? '' }}";
+    let degree = "{{ $portfolio->Degree ?? '' }}";
+    let age = "{{ $portfolio->Age ?? '' }}";
+    let messagetext = "{{ $portfolio->messageText ?? '' }}";
+
+    Swal.fire({
+        title: "Edit Background Profile",
+        html: `
+            <form id="backgroundProfileForm">
+                <input type="text" name="phone" value="${phone}" class="swal2-input" placeholder="Phone Number" required>
+                <input type="date" name="birthday" value="${birthday}" class="swal2-input" required>
+                <input type="text" name="city" value="${city}" class="swal2-input" placeholder="City" required>
+                <input type="text" name="degree" value="${degree}" class="swal2-input" placeholder="Degree" required>
+                <input type="number" name="age" value="${age}" class="swal2-input" placeholder="Age" required>
+                <textarea name="messagetext" class="swal2-textarea" placeholder="Message">${messagetext}</textarea>
+            </form>
+        `,
+        showCancelButton: true,
+        confirmButtonText: "Update",
+        cancelButtonText: "Cancel",
+        preConfirm: () => {
+            const form = document.getElementById("backgroundProfileForm");
+            if (!form.checkValidity()) {
+                Swal.showValidationMessage("Please fill in all required fields.");
+                return false;
+            }
+            return new FormData(form);
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const formData = result.value;
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = "{{ route('portfolios.update', $portfolio->id) }}";
+
+            // CSRF Token
+            const csrfInput = document.createElement("input");
+            csrfInput.type = "hidden";
+            csrfInput.name = "_token";
+            csrfInput.value = "{{ csrf_token() }}";
+            form.appendChild(csrfInput);
+
+            // Spoof the PUT method (since HTML forms don't support PUT)
+            const methodInput = document.createElement("input");
+            methodInput.type = "hidden";
+            methodInput.name = "_method";
+            methodInput.value = "PUT";
+            form.appendChild(methodInput);
+
+            // Append all form data fields
+            for (const [key, value] of formData.entries()) {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    @if(session('success'))
+        Swal.fire({
+            title: "Success!",
+            text: "{{ session('success') }}",
+            icon: "success",
+            confirmButtonText: "OK"
+        });
+    @endif
+});
+</script>
                         </p>
                         <div class="row">
                             <div class="col-lg-6">
