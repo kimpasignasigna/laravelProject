@@ -139,7 +139,6 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -149,11 +148,6 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role }}</td>
-                                    <td>
-                            
-                                    <a href="" target="_blank">View Content</a>
-                     
-                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
