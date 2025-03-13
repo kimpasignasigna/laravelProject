@@ -51,14 +51,18 @@ class RegisteredUserController extends Controller
             'skill4' => $request->skill4,
         ]);
 
-                // Handle the file upload for logo
-                if ($request->hasFile('logo')) {
-                    $file = $request->file('logo');
-                    $filename = time() . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('logo'), $filename); // Store in public/logos folder
-                    $user->logo = 'logo/' . $filename; // Save the relative path to the logo
-                }
-        
+             // Handle the file upload for logo
+if ($request->hasFile('logo')) {
+    $file = $request->file('logo');
+    $filename = time() . '.' . $file->getClientOriginalExtension();
+    
+    // Store file in storage/app/public/logos folder
+    $file->storeAs('public/logos', $filename);
+    
+    // Save the relative path to the logo
+    $user->logo = 'storage/logos/' . $filename;
+}
+
                 // Save the user record with the uploaded logo
             $user->save();
 
