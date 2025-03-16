@@ -3,7 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\ProjectController;
 use App\Models\Portfolio;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,15 +23,11 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     $users = User::where('role', '!=', 'admin')->paginate(5);
     $portfolio = Portfolio::where('user_id', Auth::id())->first(); // Fetch only the logged-in user's portfolio
-    return view('portfolio.index', compact('portfolio','users')); // ✅ Use singular variable
+    $projects = Project::where('user_id', Auth::id())->get(); // Fetch only the logged-in user's portfolio
+    return view('portfolio.index', compact('portfolio','users','projects')); // ✅ Use singular variable
 })->middleware(['auth', 'verified'])->name('/');
 
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 require __DIR__.'/auth.php';
 
@@ -38,3 +36,6 @@ Route::post('portfolios', [PortfolioController::class, 'store'])->name('portfoli
 Route::put('portfolios/{portfolio}', [PortfolioController::class, 'update'])->name('portfolios.update'); // Update Route
 Route::delete('portfolios/{portfolio}', [PortfolioController::class, 'destroy'])->name('portfolios.destroy'); // Update Route
 
+Route::post('projects', [ProjectController::class, 'store'])->name('projects.store'); // Store Route
+Route::put('projects/{project}', [ProjectController::class, 'update'])->name('projects.update'); // Update Route
+Route::delete('projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy'); // Update Route
