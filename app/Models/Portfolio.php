@@ -9,7 +9,7 @@ class Portfolio extends Model
 {
     use HasFactory; // Ensure this is used if needed
     
-    protected $fillable = ['user_id', 'birthday','phone','city','age','degree','messagetext'];
+    protected $fillable = ['user_id', 'birthday','phone','city','age','degree','messagetext','skill'];
 
     /**
      * Get the user that owns the portfolio.

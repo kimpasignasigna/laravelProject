@@ -64,6 +64,16 @@ document.getElementById("addBackgroundProfile").addEventListener("click", functi
                 <input type="text" name="degree" id="degree" class="swal2-input" placeholder="Degree" required style="width: 80%; font-size: 14px; padding: 6px;">
                 <input type="number" name="age" id="age" class="swal2-input" placeholder="Age" required style="width: 80%; font-size: 14px; padding: 6px;">
                 <textarea id="messagetext" name="messagetext" class="swal2-textarea" placeholder="Message" style="width: 80%; font-size: 14px; padding: 6px;"></textarea>
+                    <select name="skill" id="skill" class="swal2-input" required style="width: 80%; font-size: 14px; padding: 6px;">
+        <option value="" disabled selected>Select Background Skill</option>
+        <option value="stealth">Stealth</option>
+        <option value="persuasion">Persuasion</option>
+        <option value="arcana">Arcana</option>
+        <option value="athletics">Athletics</option>
+        <option value="deception">Deception</option>
+        <option value="insight">Insight</option>
+        <option value="perception">Perception</option>
+    </select>
             </form>
         `,
         showCancelButton: true,
@@ -122,6 +132,7 @@ document.getElementById("editBackgroundProfile").addEventListener("click", funct
     let degree = "{{ $portfolio->Degree ?? '' }}";
     let age = "{{ $portfolio->Age ?? '' }}";
     let messagetext = "{{ $portfolio->messageText ?? '' }}";
+    let skill = "{{ $portfolio->skill ?? '' }}";
 
     Swal.fire({
         title: "Edit Background Profile",
@@ -133,6 +144,16 @@ document.getElementById("editBackgroundProfile").addEventListener("click", funct
                 <input type="text" name="degree" value="${degree}" class="swal2-input" placeholder="Degree" required style="width: 80%; font-size: 14px; padding: 6px;">
                 <input type="number" name="age" value="${age}" class="swal2-input" placeholder="Age" required style="width: 80%; font-size: 14px; padding: 6px;">
                 <textarea name="messagetext" class="swal2-textarea" placeholder="Message" style="width: 80%; font-size: 14px; padding: 6px;">${messagetext}</textarea>
+                  <select name="skill" id="skill" class="swal2-input" required style="width: 80%; font-size: 14px; padding: 6px;">
+        <option value="" disabled>Select Background Skill</option>
+        <option value="stealth" {{ old('skill', $portfolio->skill) == 'stealth' ? 'selected' : '' }}>Stealth</option>
+        <option value="persuasion" {{ old('skill', $portfolio->skill) == 'persuasion' ? 'selected' : '' }}>Persuasion</option>
+        <option value="arcana" {{ old('skill', $portfolio->skill) == 'arcana' ? 'selected' : '' }}>Arcana</option>
+        <option value="athletics" {{ old('skill', $portfolio->skill) == 'athletics' ? 'selected' : '' }}>Athletics</option>
+        <option value="deception" {{ old('skill', $portfolio->skill) == 'deception' ? 'selected' : '' }}>Deception</option>
+        <option value="insight" {{ old('skill', $portfolio->skill) == 'insight' ? 'selected' : '' }}>Insight</option>
+        <option value="perception" {{ old('skill', $portfolio->skill) == 'perception' ? 'selected' : '' }}>Perception</option>
+    </select>
             </form>
         `,
         showCancelButton: true,
@@ -215,6 +236,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p class="py-3">
                       {{$portfolio->messageText}}
                         </p>
+                        <ul>
+                        <li><i class="bi bi-chevron-right"></i> <strong>Background Skill:</strong> <span>{{$portfolio->skill}}</span></li></ul>
                         @endif
                     </div>
                 </div>

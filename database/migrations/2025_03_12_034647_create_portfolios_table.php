@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('Age');
             $table->string('Degree');
             $table->string('messageText');
+            $table->string('skill');
             $table->timestamps();
         });
     }

@@ -25,7 +25,7 @@ Route::get('/', function () {
     $portfolio = Portfolio::where('user_id', Auth::id())->first(); // Fetch only the logged-in user's portfolio
     $projects = Project::where('user_id', Auth::id())->get(); // Fetch only the logged-in user's portfolio
     return view('portfolio.index', compact('portfolio','users','projects')); // ✅ Use singular variable
-})->middleware(['auth', 'verified'])->name('/');
+})->name('/');
 
 
 

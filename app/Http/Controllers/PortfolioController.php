@@ -19,6 +19,7 @@ class PortfolioController extends Controller
             'city' => 'required|string|max:255',
             'age' => 'required|string|max:255',
             'degree' => 'required|string|max:255',
+            'skill' => 'required|string|max:255',
             'messagetext' => 'required|string|max:255',
         ]);
         $portfolio = Portfolio::create([
@@ -28,6 +29,7 @@ class PortfolioController extends Controller
             'city' => $request->city,
             'age' => $request->age,
             'degree' => $request->degree,
+            'skill' => $request->skill,
             'messagetext' => $request->messagetext,
         ]);
 
@@ -43,6 +45,7 @@ class PortfolioController extends Controller
             'city' => 'required|string|max:255',
             'age' => 'required|string|max:255',
             'degree' => 'required|string|max:255',
+            'skill' => 'required|string|max:255',
             'messagetext' => 'required|string|max:255',
     ]);
 
@@ -52,6 +55,7 @@ class PortfolioController extends Controller
         'city' => $request->city,
         'degree' => $request->degree,
         'age' => $request->age,
+        'skill' => $request->skill,
         'messagetext' => $request->messagetext,
     ]);
 
